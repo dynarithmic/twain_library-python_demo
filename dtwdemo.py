@@ -8,8 +8,10 @@
 # To run you must 
 # 
 # 1) Have python installed along with tkinter and PIL python image processing packages.
+#
 # 2) All of the DTWAIN DLL's (dtwain32u.dll and dtwain64u.dll) are available, preferably
 #    in the same directory as the .py files
+#
 # 3) The text resources (the bare minimum are twaininfo.txt, dtwain32.ini, and dtwain64.ini)
 #    are available, again preferably in the same directory as the .py file.
 #
@@ -29,6 +31,7 @@ from app_state import TwainState
 from source_actions import close_current_source
 from dtwain_callback import setup_dtwain_callback
 from menu_builder import build_dtwdemo_menu
+from pdf_text_element import initialize_pdf_text_element
 
 def on_close():
     try:
@@ -38,6 +41,7 @@ def on_close():
         pass
 
     close_current_source(root, dtwain_dll, twain_state)
+    twain_state.pdf_text_element = None
     dtwain_dll.DTWAIN_SysDestroy()
     root.destroy()
 
@@ -58,5 +62,6 @@ if __name__ == "__main__":
     twain_state = TwainState()
     dtwain_dll = initialize_dtwain()
     setup_dtwain_callback(root, dtwain_dll, twain_state)
+    initialize_pdf_text_element(dtwain_dll, twain_state)
     build_dtwdemo_menu(root, dtwain_dll, twain_state)
     root.mainloop()

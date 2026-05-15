@@ -11,8 +11,10 @@ def setup_dtwain_callback(root, dtwain_dll, state):
 
     @dtwain_dll.SETCALLBACK_TYPE
     def twain_callback(wParam, lParam, userData):
+
         if wParam == dtwainapi.DTWAIN_TN_ACQUIRESTARTED:
-            print("DTWAIN notification: DTWAIN_TN_ACQUIRESTARTED")
+            state.pdf_page_count = 1
+            return 1
 
         if wParam == dtwainapi.DTWAIN_TN_QUERYPAGEDISCARD:
             if not state.show_preview:
@@ -34,6 +36,14 @@ def setup_dtwain_callback(root, dtwain_dll, state):
             if show_barcodes:
                 display_barcode_info(root, dtwain_dll, state)
 
+            return 1
+
+        if wParam == dtwainapi.DTWAIN_TN_FILEPAGESAVING:
+            if (state.current_file_type == dtwainapi.DTWAIN_PDFMULTI
+                and state.pdf_text_element):
+                text = f"Page {state.pdf_page_count}"
+                dtwain_dll.DTWAIN_SetPDFTextElementStringA(state.pdf_text_element,text.encode("utf-8"),dtwainapi.DTWAIN_PDFTEXTELEMENT_TEXT)
+                state.pdf_page_count += 1
             return 1
 
         if wParam == dtwainapi.DTWAIN_TN_BLANKPAGEDISCARDED1:

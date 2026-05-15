@@ -68,6 +68,7 @@ def acquire_file_common(root, dtwain_dll, state, command_id, file_type_map, file
     apply_message_loop_setting(dtwain_dll, state)
 
     try:
+        state.current_file_type = file_type
         ok = dtwain_dll.DTWAIN_AcquireFileEx(state.source,filename_array,file_type,fileflags,
                                              dtwainapi.DTWAIN_PT_DEFAULT,dtwainapi.DTWAIN_MAXACQUIRE,1,1,None)
 
@@ -77,6 +78,7 @@ def acquire_file_common(root, dtwain_dll, state, command_id, file_type_map, file
             messagebox.showerror("DTWAIN", f"{title} failed.")
 
     finally:
+        state.current_file_type = None
         dtwain_dll.DTWAIN_ArrayDestroy(filename_array)
 
 def acquire_file_test(root, dtwain_dll, state, command_id):

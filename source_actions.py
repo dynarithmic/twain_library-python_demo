@@ -28,6 +28,8 @@ def close_current_source(root, dtwain_dll, state):
             update_source_menu_state(state)
             update_source_mode_file_menu_state(dtwain_dll, state)
             update_application_menu_state(dtwain_dll, state)
+            dtwain_dll.DTWAIN_RemovePDFTextElement(state.source, state.pdf_text_element)
+
 
 def select_source_common(root, dtwain_dll, state, mode):
     selected_name = None
@@ -81,6 +83,9 @@ def select_source_common(root, dtwain_dll, state, mode):
 
     # Enable the barcode detection (only valid if source supports barcode detection)
     dtwain_dll.DTWAIN_EnableBarcodeDetection(state.source, 1)
+
+    # Add the PDF text element to the source
+    dtwain_dll.DTWAIN_AddPDFTextElement(state.source, state.pdf_text_element)
 
     root.title(f"DTWAIN Demo Program - {state.source_name}")
 

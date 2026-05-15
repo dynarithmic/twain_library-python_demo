@@ -10,6 +10,5 @@ def initialize_dtwain():
 
     dtwain_dll = dtwainapi.load_dtwaindll(str(dll_path))
     dtwain_dll.DTWAIN_SysInitialize()
-
     return dtwain_dll
 
