@@ -495,17 +495,17 @@ class TestCapabilityDialog(tk.Toplevel):
         if isinstance(value, tuple) and len(value) == 4:
             left, top, right, bottom = value
             return (
-                f"Left: {left:.2f}   "
-                f"Top: {top:.2f}   "
-                f"Right: {right:.2f}   "
-                f"Bottom: {bottom:.2f}"
+                f"Left: {left:.5f}   "
+                f"Top: {top:.5f}   "
+                f"Right: {right:.5f}   "
+                f"Bottom: {bottom:.5f}"
             )
 
         if isinstance(value, str):
             return value
 
         if isinstance(value, float):
-            return f"{value:.2f}"
+            return f"{value:.5f}"
 
         if self.cmb_data_type.get() == "TWTY_BOOL":
             return "TRUE" if value else "FALSE"
