@@ -21,6 +21,7 @@ def close_current_source(root, dtwain_dll, state):
     if state.source:
         try:
             dtwain_dll.DTWAIN_CloseSource(state.source)
+            dtwain_dll.DTWAIN_RemovePDFTextElement(state.source, state.pdf_text_element)
         finally:
             state.source = None
             state.source_name = ""
@@ -28,7 +29,6 @@ def close_current_source(root, dtwain_dll, state):
             update_source_menu_state(state)
             update_source_mode_file_menu_state(dtwain_dll, state)
             update_application_menu_state(dtwain_dll, state)
-            dtwain_dll.DTWAIN_RemovePDFTextElement(state.source, state.pdf_text_element)
 
 
 def select_source_common(root, dtwain_dll, state, mode):
