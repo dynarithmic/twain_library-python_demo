@@ -47,7 +47,7 @@ C:\Python313-32\python.exe -m pip install pillow
 
    * These files are located here:
 
-     [DTWAIN Text Resources](https://github.com/dynarithmic/twain_library/tree/master/text_resources?utm_source=chatgpt.com)
+     [DTWAIN Text Resources](https://github.com/dynarithmic/twain_library/tree/master/text_resources)
 
    * Normally, users who installed DTWAIN already have these files.
 
