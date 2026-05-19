@@ -1,5 +1,5 @@
-# twain_library-python_demo
-`dtwdemo.py` is a python demo program using the <a href="https://github.com/dynarithmic/twain_library" target="_blank">DTWAIN Library</a>.
+# Full Python demo program 
+`dtwdemo.py` is a python demo program using the <a href="https://github.com/dynarithmic/twain_library" target="_blank">DTWAIN Library</a>, similar to the DTWDEMO32 or DTWDEMO64 demo programs, which are written in the C language.
 
 To run `dtwdemo.py`, the following requirements are needed:
 
