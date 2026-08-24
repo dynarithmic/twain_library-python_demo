@@ -777,6 +777,9 @@ DTWAIN_ERR_RANGE_OUTOFBOUNDS = (-1085)
 DTWAIN_ERR_RANGE_STEPISZERO = (-1086)
 DTWAIN_ERR_BLANKNAMEDETECTED = (-1087)
 DTWAIN_ERR_FEEDER_NOPAPERSENSOR = (-1088)
+DTWAIN_ERR_DTWAINDLL_LOADERROR = (-1089)
+DTWAIN_ERR_DTWAINDLL_VERSION = (-1090)
+DTWAIN_ERR_ACTIVE_TWAINSESSION = (-1091)
 TWAIN_ERR_LOW_MEMORY = (-1100)
 TWAIN_ERR_FALSE_ALARM = (-1101)
 TWAIN_ERR_BUMMER = (-1102)
@@ -1709,6 +1712,12 @@ DTWAIN_PDF_AES128 = 1
 DTWAIN_PDF_AES256 = 2
 DTWAIN_FEEDER_TERMINATE = 1
 DTWAIN_FEEDER_USEFLATBED = 2
+DTWAIN_CHECKDLLVERLESS = 0
+DTWAIN_CHECKDLLVEREQUAL = 1
+DTWAIN_CHECKDLLVERGREATER = 2
+DTWAIN_CHECKDLLVERLESSEQ = 3
+DTWAIN_CHECKDLLVERGREATEREQ = 4
+DTWAIN_RESOURCE_COPYRIGHT = 9700
 
 # Example:
 # load the 64-bit unicode version of the dtwain dll
@@ -1876,6 +1885,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_ArrayCreateFromLong64s.restype = ct.c_void_p
      theDLL.DTWAIN_ArrayCreateFromLongs.restype = ct.c_void_p
      theDLL.DTWAIN_ArrayCreateFromStrings.restype = ct.c_void_p
+     theDLL.DTWAIN_ArrayCreateFromType.restype = ct.c_void_p
      theDLL.DTWAIN_ArrayCreateFromWideStrings.restype = ct.c_void_p
      theDLL.DTWAIN_ArrayDestroy.restype = ct.c_long
      theDLL.DTWAIN_ArrayDestroyAll.restype = ct.c_long
@@ -1986,6 +1996,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_CallCallback.restype = ct.c_long
      theDLL.DTWAIN_CallCallback64.restype = ct.c_long
      theDLL.DTWAIN_CallDSMProc.restype = ct.c_long
+     theDLL.DTWAIN_CheckDLLVersion.restype = ct.c_long
      theDLL.DTWAIN_CheckHandles.restype = ct.c_long
      theDLL.DTWAIN_ClearBuffers.restype = ct.c_long
      theDLL.DTWAIN_ClearErrorBuffer.restype = ct.c_long
@@ -2298,7 +2309,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_GetDuplexType.restype = ct.c_long
      theDLL.DTWAIN_GetDuplexTypeEx.restype = ct.c_long
      theDLL.DTWAIN_GetErrorBuffer.restype = ct.c_long
-     theDLL.DTWAIN_GetErrorBufferThreshold.restype = ct.c_long
+     theDLL.DTWAIN_GetErrorBufferThreshold.restype = ct.c_ulong
      theDLL.DTWAIN_GetErrorCallback.restype = theDLL.SETERRORPROC_TYPE
      theDLL.DTWAIN_GetErrorCallback64.restype = theDLL.SETERRORPROC64_TYPE
      theDLL.DTWAIN_GetErrorString.restype = ct.c_long
@@ -2505,6 +2516,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_GetVersionCopyrightA.restype = ct.c_long
      theDLL.DTWAIN_GetVersionCopyrightW.restype = ct.c_long
      theDLL.DTWAIN_GetVersionEx.restype = ct.c_long
+     theDLL.DTWAIN_GetVersionEx2.restype = ct.c_long
      theDLL.DTWAIN_GetVersionInfo.restype = ct.c_long
      theDLL.DTWAIN_GetVersionInfoA.restype = ct.c_long
      theDLL.DTWAIN_GetVersionInfoW.restype = ct.c_long
@@ -2985,6 +2997,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_SysInitializeLibExA.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeLibExW.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeNoBlocking.restype = ct.c_void_p
+     theDLL.DTWAIN_SysInitializeNoBlockingEx.restype = ct.c_void_p
      theDLL.DTWAIN_TestGetCap.restype = ct.c_void_p
      theDLL.DTWAIN_UnlockMemory.restype = ct.c_long
      theDLL.DTWAIN_UnlockMemoryEx.restype = ct.c_long
@@ -3059,6 +3072,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_ArrayCreateFromLong64s.argtypes = [ct.POINTER(ct.c_int64), ct.c_long]
      theDLL.DTWAIN_ArrayCreateFromLongs.argtypes = [ct.POINTER(ct.c_long), ct.c_long]
      theDLL.DTWAIN_ArrayCreateFromStrings.argtypes = [ct.POINTER(ct.c_wchar_p), ct.c_long]
+     theDLL.DTWAIN_ArrayCreateFromType.argtypes = [ct.c_void_p, ct.c_long, ct.c_long]
      theDLL.DTWAIN_ArrayCreateFromWideStrings.argtypes = [ct.POINTER(ct.c_wchar_p), ct.c_long]
      theDLL.DTWAIN_ArrayDestroy.argtypes = [ct.c_void_p]
      theDLL.DTWAIN_ArrayDestroyFrames.argtypes = [ct.c_void_p]
@@ -3167,6 +3181,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_CallCallback.argtypes = [ct.c_long, ct.c_long, ct.c_long]
      theDLL.DTWAIN_CallCallback64.argtypes = [ct.c_long, ct.c_long, ct.c_int64]
      theDLL.DTWAIN_CallDSMProc.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_long, ct.c_long, ct.c_long, ct.c_void_p]
+     theDLL.DTWAIN_CheckDLLVersion.argtypes = [ct.c_long, ct.c_long, ct.c_long, ct.c_long, ct.c_long]
      theDLL.DTWAIN_CheckHandles.argtypes = [ct.c_long]
      theDLL.DTWAIN_ClearBuffers.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_ClearPDFTextElements.argtypes = [ct.c_void_p]
@@ -3425,7 +3440,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_GetCaption.argtypes = [ct.c_void_p, ct.c_wchar_p]
      theDLL.DTWAIN_GetCaptionA.argtypes = [ct.c_void_p, ct.c_char_p]
      theDLL.DTWAIN_GetCaptionW.argtypes = [ct.c_void_p, ct.c_wchar_p]
-     theDLL.DTWAIN_GetCompressionSize.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
+     theDLL.DTWAIN_GetCompressionSize.argtypes = [ct.c_void_p, ct.POINTER(ct.c_ulong)]
      theDLL.DTWAIN_GetCompressionType.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long), ct.c_long]
      theDLL.DTWAIN_GetCompressionTypeEx.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_GetConditionCodeString.argtypes = [ct.c_long, ct.c_wchar_p, ct.c_long]
@@ -3453,8 +3468,8 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_GetDSMSearchOrderEx.argtypes = [ct.c_wchar_p, ct.c_wchar_p]
      theDLL.DTWAIN_GetDSMSearchOrderExA.argtypes = [ct.c_char_p, ct.c_char_p]
      theDLL.DTWAIN_GetDSMSearchOrderExW.argtypes = [ct.c_wchar_p, ct.c_wchar_p]
-     theDLL.DTWAIN_GetDeviceEvent.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
-     theDLL.DTWAIN_GetDeviceEventEx.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long), ct.POINTER(ct.c_void_p)]
+     theDLL.DTWAIN_GetDeviceEvent.argtypes = [ct.c_void_p, ct.POINTER(ct.c_ulong)]
+     theDLL.DTWAIN_GetDeviceEventEx.argtypes = [ct.c_void_p, ct.POINTER(ct.c_ulong), ct.POINTER(ct.c_void_p)]
      theDLL.DTWAIN_GetDeviceEventInfo.argtypes = [ct.c_void_p, ct.c_long, ct.c_void_p]
      theDLL.DTWAIN_GetDeviceNotifications.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
      theDLL.DTWAIN_GetDeviceTimeDate.argtypes = [ct.c_void_p, ct.c_wchar_p]
@@ -3657,6 +3672,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_GetVersionCopyrightA.argtypes = [ct.c_char_p, ct.c_long]
      theDLL.DTWAIN_GetVersionCopyrightW.argtypes = [ct.c_wchar_p, ct.c_long]
      theDLL.DTWAIN_GetVersionEx.argtypes = [ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long)]
+     theDLL.DTWAIN_GetVersionEx2.argtypes = [ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long)]
      theDLL.DTWAIN_GetVersionInfo.argtypes = [ct.c_wchar_p, ct.c_long]
      theDLL.DTWAIN_GetVersionInfoA.argtypes = [ct.c_char_p, ct.c_long]
      theDLL.DTWAIN_GetVersionInfoW.argtypes = [ct.c_wchar_p, ct.c_long]
@@ -3948,7 +3964,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_SetDoubleFeedDetectValues.argtypes = [ct.c_void_p, ct.c_void_p]
      theDLL.DTWAIN_SetDoublePageCountOnDuplex.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_SetEOJDetectValue.argtypes = [ct.c_void_p, ct.c_long]
-     theDLL.DTWAIN_SetErrorBufferThreshold.argtypes = [ct.c_long]
+     theDLL.DTWAIN_SetErrorBufferThreshold.argtypes = [ct.c_ulong]
      theDLL.DTWAIN_SetErrorCallback.argtypes = [theDLL.SETERRORPROC_TYPE, ct.c_long]
      theDLL.DTWAIN_SetErrorCallback64.argtypes = [theDLL.SETERRORPROC64_TYPE, ct.c_int64]
      theDLL.DTWAIN_SetFeederAlignment.argtypes = [ct.c_void_p, ct.c_long]
@@ -4121,6 +4137,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_SysInitializeLibEx2W.argtypes = [ct.c_void_p, ct.c_wchar_p, ct.c_wchar_p, ct.c_wchar_p]
      theDLL.DTWAIN_SysInitializeLibExA.argtypes = [ct.c_void_p, ct.c_char_p]
      theDLL.DTWAIN_SysInitializeLibExW.argtypes = [ct.c_void_p, ct.c_wchar_p]
+     theDLL.DTWAIN_SysInitializeNoBlockingEx.argtypes = [ct.c_long]
      theDLL.DTWAIN_TestGetCap.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_UnlockMemory.argtypes = [ct.c_void_p]
      theDLL.DTWAIN_UnlockMemoryEx.argtypes = [ct.c_void_p]
@@ -4209,6 +4226,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_ArrayCreateFromLong64s.restype = ct.c_void_p
      theDLL.DTWAIN_ArrayCreateFromLongs.restype = ct.c_void_p
      theDLL.DTWAIN_ArrayCreateFromStrings.restype = ct.c_void_p
+     theDLL.DTWAIN_ArrayCreateFromType.restype = ct.c_void_p
      theDLL.DTWAIN_ArrayCreateFromWideStrings.restype = ct.c_void_p
      theDLL.DTWAIN_ArrayDestroy.restype = ct.c_long
      theDLL.DTWAIN_ArrayDestroyAll.restype = ct.c_long
@@ -4319,6 +4337,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_CallCallback.restype = ct.c_long
      theDLL.DTWAIN_CallCallback64.restype = ct.c_long
      theDLL.DTWAIN_CallDSMProc.restype = ct.c_long
+     theDLL.DTWAIN_CheckDLLVersion.restype = ct.c_long
      theDLL.DTWAIN_CheckHandles.restype = ct.c_long
      theDLL.DTWAIN_ClearBuffers.restype = ct.c_long
      theDLL.DTWAIN_ClearErrorBuffer.restype = ct.c_long
@@ -4631,7 +4650,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_GetDuplexType.restype = ct.c_long
      theDLL.DTWAIN_GetDuplexTypeEx.restype = ct.c_long
      theDLL.DTWAIN_GetErrorBuffer.restype = ct.c_long
-     theDLL.DTWAIN_GetErrorBufferThreshold.restype = ct.c_long
+     theDLL.DTWAIN_GetErrorBufferThreshold.restype = ct.c_ulong
      theDLL.DTWAIN_GetErrorCallback.restype = theDLL.SETERRORPROC_TYPE
      theDLL.DTWAIN_GetErrorCallback64.restype = theDLL.SETERRORPROC64_TYPE
      theDLL.DTWAIN_GetErrorString.restype = ct.c_long
@@ -4838,6 +4857,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_GetVersionCopyrightA.restype = ct.c_long
      theDLL.DTWAIN_GetVersionCopyrightW.restype = ct.c_long
      theDLL.DTWAIN_GetVersionEx.restype = ct.c_long
+     theDLL.DTWAIN_GetVersionEx2.restype = ct.c_long
      theDLL.DTWAIN_GetVersionInfo.restype = ct.c_long
      theDLL.DTWAIN_GetVersionInfoA.restype = ct.c_long
      theDLL.DTWAIN_GetVersionInfoW.restype = ct.c_long
@@ -5318,6 +5338,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_SysInitializeLibExA.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeLibExW.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeNoBlocking.restype = ct.c_void_p
+     theDLL.DTWAIN_SysInitializeNoBlockingEx.restype = ct.c_void_p
      theDLL.DTWAIN_TestGetCap.restype = ct.c_void_p
      theDLL.DTWAIN_UnlockMemory.restype = ct.c_long
      theDLL.DTWAIN_UnlockMemoryEx.restype = ct.c_long
@@ -5392,6 +5413,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_ArrayCreateFromLong64s.argtypes = [ct.POINTER(ct.c_int64), ct.c_long]
      theDLL.DTWAIN_ArrayCreateFromLongs.argtypes = [ct.POINTER(ct.c_long), ct.c_long]
      theDLL.DTWAIN_ArrayCreateFromStrings.argtypes = [ct.POINTER(ct.c_char_p), ct.c_long]
+     theDLL.DTWAIN_ArrayCreateFromType.argtypes = [ct.c_void_p, ct.c_long, ct.c_long]
      theDLL.DTWAIN_ArrayCreateFromWideStrings.argtypes = [ct.POINTER(ct.c_wchar_p), ct.c_long]
      theDLL.DTWAIN_ArrayDestroy.argtypes = [ct.c_void_p]
      theDLL.DTWAIN_ArrayDestroyFrames.argtypes = [ct.c_void_p]
@@ -5500,6 +5522,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_CallCallback.argtypes = [ct.c_long, ct.c_long, ct.c_long]
      theDLL.DTWAIN_CallCallback64.argtypes = [ct.c_long, ct.c_long, ct.c_int64]
      theDLL.DTWAIN_CallDSMProc.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_long, ct.c_long, ct.c_long, ct.c_void_p]
+     theDLL.DTWAIN_CheckDLLVersion.argtypes = [ct.c_long, ct.c_long, ct.c_long, ct.c_long, ct.c_long]
      theDLL.DTWAIN_CheckHandles.argtypes = [ct.c_long]
      theDLL.DTWAIN_ClearBuffers.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_ClearPDFTextElements.argtypes = [ct.c_void_p]
@@ -5758,7 +5781,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_GetCaption.argtypes = [ct.c_void_p, ct.c_char_p]
      theDLL.DTWAIN_GetCaptionA.argtypes = [ct.c_void_p, ct.c_char_p]
      theDLL.DTWAIN_GetCaptionW.argtypes = [ct.c_void_p, ct.c_wchar_p]
-     theDLL.DTWAIN_GetCompressionSize.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
+     theDLL.DTWAIN_GetCompressionSize.argtypes = [ct.c_void_p, ct.POINTER(ct.c_ulong)]
      theDLL.DTWAIN_GetCompressionType.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long), ct.c_long]
      theDLL.DTWAIN_GetCompressionTypeEx.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_GetConditionCodeString.argtypes = [ct.c_long, ct.c_char_p, ct.c_long]
@@ -5786,8 +5809,8 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_GetDSMSearchOrderEx.argtypes = [ct.c_char_p, ct.c_char_p]
      theDLL.DTWAIN_GetDSMSearchOrderExA.argtypes = [ct.c_char_p, ct.c_char_p]
      theDLL.DTWAIN_GetDSMSearchOrderExW.argtypes = [ct.c_wchar_p, ct.c_wchar_p]
-     theDLL.DTWAIN_GetDeviceEvent.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
-     theDLL.DTWAIN_GetDeviceEventEx.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long), ct.POINTER(ct.c_void_p)]
+     theDLL.DTWAIN_GetDeviceEvent.argtypes = [ct.c_void_p, ct.POINTER(ct.c_ulong)]
+     theDLL.DTWAIN_GetDeviceEventEx.argtypes = [ct.c_void_p, ct.POINTER(ct.c_ulong), ct.POINTER(ct.c_void_p)]
      theDLL.DTWAIN_GetDeviceEventInfo.argtypes = [ct.c_void_p, ct.c_long, ct.c_void_p]
      theDLL.DTWAIN_GetDeviceNotifications.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
      theDLL.DTWAIN_GetDeviceTimeDate.argtypes = [ct.c_void_p, ct.c_char_p]
@@ -5990,6 +6013,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_GetVersionCopyrightA.argtypes = [ct.c_char_p, ct.c_long]
      theDLL.DTWAIN_GetVersionCopyrightW.argtypes = [ct.c_wchar_p, ct.c_long]
      theDLL.DTWAIN_GetVersionEx.argtypes = [ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long)]
+     theDLL.DTWAIN_GetVersionEx2.argtypes = [ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long), ct.POINTER(ct.c_long)]
      theDLL.DTWAIN_GetVersionInfo.argtypes = [ct.c_char_p, ct.c_long]
      theDLL.DTWAIN_GetVersionInfoA.argtypes = [ct.c_char_p, ct.c_long]
      theDLL.DTWAIN_GetVersionInfoW.argtypes = [ct.c_wchar_p, ct.c_long]
@@ -6281,7 +6305,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_SetDoubleFeedDetectValues.argtypes = [ct.c_void_p, ct.c_void_p]
      theDLL.DTWAIN_SetDoublePageCountOnDuplex.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_SetEOJDetectValue.argtypes = [ct.c_void_p, ct.c_long]
-     theDLL.DTWAIN_SetErrorBufferThreshold.argtypes = [ct.c_long]
+     theDLL.DTWAIN_SetErrorBufferThreshold.argtypes = [ct.c_ulong]
      theDLL.DTWAIN_SetErrorCallback.argtypes = [theDLL.SETERRORPROC_TYPE, ct.c_long]
      theDLL.DTWAIN_SetErrorCallback64.argtypes = [theDLL.SETERRORPROC64_TYPE, ct.c_int64]
      theDLL.DTWAIN_SetFeederAlignment.argtypes = [ct.c_void_p, ct.c_long]
@@ -6454,6 +6478,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_SysInitializeLibEx2W.argtypes = [ct.c_void_p, ct.c_wchar_p, ct.c_wchar_p, ct.c_wchar_p]
      theDLL.DTWAIN_SysInitializeLibExA.argtypes = [ct.c_void_p, ct.c_char_p]
      theDLL.DTWAIN_SysInitializeLibExW.argtypes = [ct.c_void_p, ct.c_wchar_p]
+     theDLL.DTWAIN_SysInitializeNoBlockingEx.argtypes = [ct.c_long]
      theDLL.DTWAIN_TestGetCap.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_UnlockMemory.argtypes = [ct.c_void_p]
      theDLL.DTWAIN_UnlockMemoryEx.argtypes = [ct.c_void_p]
