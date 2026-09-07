@@ -1806,16 +1806,16 @@ def setup_windll(theDLL, isAnsi):
 def setup_unicode(theDLL):
      # set up the callback types
      from ctypes.wintypes import WPARAM, LPARAM
-     theDLL.SETCALLBACK_TYPE = ct.CFUNCTYPE(ct.c_long, WPARAM, LPARAM, ct.c_long)
-     theDLL.SETCALLBACK64_TYPE = ct.CFUNCTYPE(ct.c_long, WPARAM, LPARAM, ct.c_int64)
-     theDLL.SETERRORPROC_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_long, ct.c_long)
-     theDLL.SETERRORPROC64_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_long, ct.c_int64)
-     theDLL.SETLOGGERPROC_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_wchar_p, ct.c_int64)
-     theDLL.SETLOGGERPROCA_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_char_p, ct.c_int64)
-     theDLL.SETLOGGERPROCW_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_wchar_p, ct.c_int64)
-     theDLL.ERRORPROC_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_long, ct.c_long)
-     theDLL.ERRORPROC64_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_long, ct.c_int64)
-     theDLL.DIBUPDATEPROC_TYPE = ct.CFUNCTYPE(ct.c_void_p, ct.c_void_p, ct.c_long, ct.c_void_p)
+     theDLL.SETCALLBACK_TYPE = ct.WINFUNCTYPE(ct.c_long, WPARAM, LPARAM, ct.c_long)
+     theDLL.SETCALLBACK64_TYPE = ct.WINFUNCTYPE(ct.c_long, WPARAM, LPARAM, ct.c_int64)
+     theDLL.SETERRORPROC_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_long, ct.c_long)
+     theDLL.SETERRORPROC64_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_long, ct.c_int64)
+     theDLL.SETLOGGERPROC_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_wchar_p, ct.c_int64)
+     theDLL.SETLOGGERPROCA_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_char_p, ct.c_int64)
+     theDLL.SETLOGGERPROCW_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_wchar_p, ct.c_int64)
+     theDLL.ERRORPROC_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_long, ct.c_long)
+     theDLL.ERRORPROC64_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_long, ct.c_int64)
+     theDLL.DIBUPDATEPROC_TYPE = ct.WINFUNCTYPE(ct.c_void_p, ct.c_void_p, ct.c_long, ct.c_void_p)
 
      #set up the return types
      theDLL.DTWAIN_AcquireAudioFile.restype = ct.c_long
@@ -2216,6 +2216,9 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_GetActiveDSMVersionInfoA.restype = ct.c_long
      theDLL.DTWAIN_GetActiveDSMVersionInfoW.restype = ct.c_long
      theDLL.DTWAIN_GetAlarmVolume.restype = ct.c_long
+     theDLL.DTWAIN_GetAllSessionInfo.restype = ct.c_long
+     theDLL.DTWAIN_GetAllSessionInfoA.restype = ct.c_long
+     theDLL.DTWAIN_GetAllSessionInfoW.restype = ct.c_long
      theDLL.DTWAIN_GetAllSourceDibs.restype = ct.c_void_p
      theDLL.DTWAIN_GetAllSourceInfo.restype = ct.c_long
      theDLL.DTWAIN_GetAllSourceInfoA.restype = ct.c_long
@@ -2366,6 +2369,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_GetLoggerCallback.restype = theDLL.SETLOGGERPROC_TYPE
      theDLL.DTWAIN_GetLoggerCallbackA.restype = theDLL.SETLOGGERPROCA_TYPE
      theDLL.DTWAIN_GetLoggerCallbackW.restype = theDLL.SETLOGGERPROCW_TYPE
+     theDLL.DTWAIN_GetMajorMinorVersion.restype = ct.c_long
      theDLL.DTWAIN_GetManualDuplexCount.restype = ct.c_long
      theDLL.DTWAIN_GetMaxAcquisitions.restype = ct.c_long
      theDLL.DTWAIN_GetMaxBuffers.restype = ct.c_long
@@ -2853,6 +2857,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_SetLoggerCallback.restype = ct.c_long
      theDLL.DTWAIN_SetLoggerCallbackA.restype = ct.c_long
      theDLL.DTWAIN_SetLoggerCallbackW.restype = ct.c_long
+     theDLL.DTWAIN_SetMajorMinorVersion.restype = ct.c_long
      theDLL.DTWAIN_SetManualDuplexMode.restype = ct.c_long
      theDLL.DTWAIN_SetMaxAcquisitions.restype = ct.c_long
      theDLL.DTWAIN_SetMaxBuffers.restype = ct.c_long
@@ -2989,13 +2994,6 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_SysInitializeEx2W.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeExA.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeExW.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLib.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibEx.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibEx2.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibEx2A.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibEx2W.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibExA.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibExW.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeNoBlocking.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeNoBlockingEx.restype = ct.c_void_p
      theDLL.DTWAIN_TestGetCap.restype = ct.c_void_p
@@ -3392,6 +3390,9 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_GetActiveDSMVersionInfoA.argtypes = [ct.c_char_p, ct.c_long]
      theDLL.DTWAIN_GetActiveDSMVersionInfoW.argtypes = [ct.c_wchar_p, ct.c_long]
      theDLL.DTWAIN_GetAlarmVolume.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
+     theDLL.DTWAIN_GetAllSessionInfo.argtypes = [ct.c_wchar_p, ct.c_long, ct.c_long]
+     theDLL.DTWAIN_GetAllSessionInfoA.argtypes = [ct.c_char_p, ct.c_long, ct.c_long]
+     theDLL.DTWAIN_GetAllSessionInfoW.argtypes = [ct.c_wchar_p, ct.c_long, ct.c_long]
      theDLL.DTWAIN_GetAllSourceDibs.argtypes = [ct.c_void_p]
      theDLL.DTWAIN_GetAllSourceInfo.argtypes = [ct.c_void_p, ct.c_wchar_p, ct.c_long, ct.c_long]
      theDLL.DTWAIN_GetAllSourceInfoA.argtypes = [ct.c_void_p, ct.c_char_p, ct.c_long, ct.c_long]
@@ -3529,6 +3530,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_GetLightSource.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
      theDLL.DTWAIN_GetLightSources.argtypes = [ct.c_void_p, ct.POINTER(ct.c_void_p)]
      theDLL.DTWAIN_GetLightSourcesEx.argtypes = [ct.c_void_p]
+     theDLL.DTWAIN_GetMajorMinorVersion.argtypes = [ct.POINTER(ct.c_ulong), ct.POINTER(ct.c_ulong)]
      theDLL.DTWAIN_GetManualDuplexCount.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long), ct.POINTER(ct.c_long)]
      theDLL.DTWAIN_GetMaxAcquisitions.argtypes = [ct.c_void_p]
      theDLL.DTWAIN_GetMaxBuffers.argtypes = [ct.c_void_p, ct.POINTER(ct.c_ulong)]
@@ -3996,6 +3998,7 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_SetLoggerCallback.argtypes = [theDLL.SETLOGGERPROC_TYPE, ct.c_int64]
      theDLL.DTWAIN_SetLoggerCallbackA.argtypes = [theDLL.SETLOGGERPROCA_TYPE, ct.c_int64]
      theDLL.DTWAIN_SetLoggerCallbackW.argtypes = [theDLL.SETLOGGERPROCW_TYPE, ct.c_int64]
+     theDLL.DTWAIN_SetMajorMinorVersion.argtypes = [ct.c_ulong, ct.c_ulong]
      theDLL.DTWAIN_SetManualDuplexMode.argtypes = [ct.c_void_p, ct.c_long, ct.c_long]
      theDLL.DTWAIN_SetMaxAcquisitions.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_SetMaxBuffers.argtypes = [ct.c_void_p, ct.c_ulong]
@@ -4130,13 +4133,6 @@ def setup_unicode(theDLL):
      theDLL.DTWAIN_SysInitializeEx2W.argtypes = [ct.c_wchar_p, ct.c_wchar_p, ct.c_wchar_p]
      theDLL.DTWAIN_SysInitializeExA.argtypes = [ct.c_char_p]
      theDLL.DTWAIN_SysInitializeExW.argtypes = [ct.c_wchar_p]
-     theDLL.DTWAIN_SysInitializeLib.argtypes = [ct.c_void_p]
-     theDLL.DTWAIN_SysInitializeLibEx.argtypes = [ct.c_void_p, ct.c_wchar_p]
-     theDLL.DTWAIN_SysInitializeLibEx2.argtypes = [ct.c_void_p, ct.c_wchar_p, ct.c_wchar_p, ct.c_wchar_p]
-     theDLL.DTWAIN_SysInitializeLibEx2A.argtypes = [ct.c_void_p, ct.c_char_p, ct.c_char_p, ct.c_char_p]
-     theDLL.DTWAIN_SysInitializeLibEx2W.argtypes = [ct.c_void_p, ct.c_wchar_p, ct.c_wchar_p, ct.c_wchar_p]
-     theDLL.DTWAIN_SysInitializeLibExA.argtypes = [ct.c_void_p, ct.c_char_p]
-     theDLL.DTWAIN_SysInitializeLibExW.argtypes = [ct.c_void_p, ct.c_wchar_p]
      theDLL.DTWAIN_SysInitializeNoBlockingEx.argtypes = [ct.c_long]
      theDLL.DTWAIN_TestGetCap.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_UnlockMemory.argtypes = [ct.c_void_p]
@@ -4147,16 +4143,16 @@ def setup_unicode(theDLL):
 def setup_ansi(theDLL):
      # set up the callback types
      from ctypes.wintypes import WPARAM, LPARAM
-     theDLL.SETCALLBACK_TYPE = ct.CFUNCTYPE(ct.c_long, WPARAM, LPARAM, ct.c_long)
-     theDLL.SETCALLBACK64_TYPE = ct.CFUNCTYPE(ct.c_long, WPARAM, LPARAM, ct.c_int64)
-     theDLL.SETERRORPROC_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_long, ct.c_long)
-     theDLL.SETERRORPROC64_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_long, ct.c_int64)
-     theDLL.SETLOGGERPROC_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_char_p, ct.c_int64)
-     theDLL.SETLOGGERPROCA_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_char_p, ct.c_int64)
-     theDLL.SETLOGGERPROCW_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_wchar_p, ct.c_int64)
-     theDLL.ERRORPROC_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_long, ct.c_long)
-     theDLL.ERRORPROC64_TYPE = ct.CFUNCTYPE(ct.c_long, ct.c_long, ct.c_int64)
-     theDLL.DIBUPDATEPROC_TYPE = ct.CFUNCTYPE(ct.c_void_p, ct.c_void_p, ct.c_long, ct.c_void_p)
+     theDLL.SETCALLBACK_TYPE = ct.WINFUNCTYPE(ct.c_long, WPARAM, LPARAM, ct.c_long)
+     theDLL.SETCALLBACK64_TYPE = ct.WINFUNCTYPE(ct.c_long, WPARAM, LPARAM, ct.c_int64)
+     theDLL.SETERRORPROC_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_long, ct.c_long)
+     theDLL.SETERRORPROC64_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_long, ct.c_int64)
+     theDLL.SETLOGGERPROC_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_char_p, ct.c_int64)
+     theDLL.SETLOGGERPROCA_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_char_p, ct.c_int64)
+     theDLL.SETLOGGERPROCW_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_wchar_p, ct.c_int64)
+     theDLL.ERRORPROC_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_long, ct.c_long)
+     theDLL.ERRORPROC64_TYPE = ct.WINFUNCTYPE(ct.c_long, ct.c_long, ct.c_int64)
+     theDLL.DIBUPDATEPROC_TYPE = ct.WINFUNCTYPE(ct.c_void_p, ct.c_void_p, ct.c_long, ct.c_void_p)
 
      #set up the return types
      theDLL.DTWAIN_AcquireAudioFile.restype = ct.c_long
@@ -4557,6 +4553,9 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_GetActiveDSMVersionInfoA.restype = ct.c_long
      theDLL.DTWAIN_GetActiveDSMVersionInfoW.restype = ct.c_long
      theDLL.DTWAIN_GetAlarmVolume.restype = ct.c_long
+     theDLL.DTWAIN_GetAllSessionInfo.restype = ct.c_long
+     theDLL.DTWAIN_GetAllSessionInfoA.restype = ct.c_long
+     theDLL.DTWAIN_GetAllSessionInfoW.restype = ct.c_long
      theDLL.DTWAIN_GetAllSourceDibs.restype = ct.c_void_p
      theDLL.DTWAIN_GetAllSourceInfo.restype = ct.c_long
      theDLL.DTWAIN_GetAllSourceInfoA.restype = ct.c_long
@@ -4707,6 +4706,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_GetLoggerCallback.restype = theDLL.SETLOGGERPROC_TYPE
      theDLL.DTWAIN_GetLoggerCallbackA.restype = theDLL.SETLOGGERPROCA_TYPE
      theDLL.DTWAIN_GetLoggerCallbackW.restype = theDLL.SETLOGGERPROCW_TYPE
+     theDLL.DTWAIN_GetMajorMinorVersion.restype = ct.c_long
      theDLL.DTWAIN_GetManualDuplexCount.restype = ct.c_long
      theDLL.DTWAIN_GetMaxAcquisitions.restype = ct.c_long
      theDLL.DTWAIN_GetMaxBuffers.restype = ct.c_long
@@ -5194,6 +5194,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_SetLoggerCallback.restype = ct.c_long
      theDLL.DTWAIN_SetLoggerCallbackA.restype = ct.c_long
      theDLL.DTWAIN_SetLoggerCallbackW.restype = ct.c_long
+     theDLL.DTWAIN_SetMajorMinorVersion.restype = ct.c_long
      theDLL.DTWAIN_SetManualDuplexMode.restype = ct.c_long
      theDLL.DTWAIN_SetMaxAcquisitions.restype = ct.c_long
      theDLL.DTWAIN_SetMaxBuffers.restype = ct.c_long
@@ -5330,13 +5331,6 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_SysInitializeEx2W.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeExA.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeExW.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLib.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibEx.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibEx2.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibEx2A.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibEx2W.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibExA.restype = ct.c_void_p
-     theDLL.DTWAIN_SysInitializeLibExW.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeNoBlocking.restype = ct.c_void_p
      theDLL.DTWAIN_SysInitializeNoBlockingEx.restype = ct.c_void_p
      theDLL.DTWAIN_TestGetCap.restype = ct.c_void_p
@@ -5733,6 +5727,9 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_GetActiveDSMVersionInfoA.argtypes = [ct.c_char_p, ct.c_long]
      theDLL.DTWAIN_GetActiveDSMVersionInfoW.argtypes = [ct.c_wchar_p, ct.c_long]
      theDLL.DTWAIN_GetAlarmVolume.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
+     theDLL.DTWAIN_GetAllSessionInfo.argtypes = [ct.c_char_p, ct.c_long, ct.c_long]
+     theDLL.DTWAIN_GetAllSessionInfoA.argtypes = [ct.c_char_p, ct.c_long, ct.c_long]
+     theDLL.DTWAIN_GetAllSessionInfoW.argtypes = [ct.c_wchar_p, ct.c_long, ct.c_long]
      theDLL.DTWAIN_GetAllSourceDibs.argtypes = [ct.c_void_p]
      theDLL.DTWAIN_GetAllSourceInfo.argtypes = [ct.c_void_p, ct.c_char_p, ct.c_long, ct.c_long]
      theDLL.DTWAIN_GetAllSourceInfoA.argtypes = [ct.c_void_p, ct.c_char_p, ct.c_long, ct.c_long]
@@ -5870,6 +5867,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_GetLightSource.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long)]
      theDLL.DTWAIN_GetLightSources.argtypes = [ct.c_void_p, ct.POINTER(ct.c_void_p)]
      theDLL.DTWAIN_GetLightSourcesEx.argtypes = [ct.c_void_p]
+     theDLL.DTWAIN_GetMajorMinorVersion.argtypes = [ct.POINTER(ct.c_ulong), ct.POINTER(ct.c_ulong)]
      theDLL.DTWAIN_GetManualDuplexCount.argtypes = [ct.c_void_p, ct.POINTER(ct.c_long), ct.POINTER(ct.c_long)]
      theDLL.DTWAIN_GetMaxAcquisitions.argtypes = [ct.c_void_p]
      theDLL.DTWAIN_GetMaxBuffers.argtypes = [ct.c_void_p, ct.POINTER(ct.c_ulong)]
@@ -6337,6 +6335,7 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_SetLoggerCallback.argtypes = [theDLL.SETLOGGERPROC_TYPE, ct.c_int64]
      theDLL.DTWAIN_SetLoggerCallbackA.argtypes = [theDLL.SETLOGGERPROCA_TYPE, ct.c_int64]
      theDLL.DTWAIN_SetLoggerCallbackW.argtypes = [theDLL.SETLOGGERPROCW_TYPE, ct.c_int64]
+     theDLL.DTWAIN_SetMajorMinorVersion.argtypes = [ct.c_ulong, ct.c_ulong]
      theDLL.DTWAIN_SetManualDuplexMode.argtypes = [ct.c_void_p, ct.c_long, ct.c_long]
      theDLL.DTWAIN_SetMaxAcquisitions.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_SetMaxBuffers.argtypes = [ct.c_void_p, ct.c_ulong]
@@ -6471,13 +6470,6 @@ def setup_ansi(theDLL):
      theDLL.DTWAIN_SysInitializeEx2W.argtypes = [ct.c_wchar_p, ct.c_wchar_p, ct.c_wchar_p]
      theDLL.DTWAIN_SysInitializeExA.argtypes = [ct.c_char_p]
      theDLL.DTWAIN_SysInitializeExW.argtypes = [ct.c_wchar_p]
-     theDLL.DTWAIN_SysInitializeLib.argtypes = [ct.c_void_p]
-     theDLL.DTWAIN_SysInitializeLibEx.argtypes = [ct.c_void_p, ct.c_char_p]
-     theDLL.DTWAIN_SysInitializeLibEx2.argtypes = [ct.c_void_p, ct.c_char_p, ct.c_char_p, ct.c_char_p]
-     theDLL.DTWAIN_SysInitializeLibEx2A.argtypes = [ct.c_void_p, ct.c_char_p, ct.c_char_p, ct.c_char_p]
-     theDLL.DTWAIN_SysInitializeLibEx2W.argtypes = [ct.c_void_p, ct.c_wchar_p, ct.c_wchar_p, ct.c_wchar_p]
-     theDLL.DTWAIN_SysInitializeLibExA.argtypes = [ct.c_void_p, ct.c_char_p]
-     theDLL.DTWAIN_SysInitializeLibExW.argtypes = [ct.c_void_p, ct.c_wchar_p]
      theDLL.DTWAIN_SysInitializeNoBlockingEx.argtypes = [ct.c_long]
      theDLL.DTWAIN_TestGetCap.argtypes = [ct.c_void_p, ct.c_long]
      theDLL.DTWAIN_UnlockMemory.argtypes = [ct.c_void_p]
